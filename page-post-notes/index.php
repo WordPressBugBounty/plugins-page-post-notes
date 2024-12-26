@@ -4,7 +4,7 @@
 Plugin Name: YYDevelopment - Page & Post Notes
 Plugin URI:  https://www.yydevelopment.com/yydevelopment-wordpress-plugins/
 Description: Simple plugin that allow you to notes on pages and posts
-Version:     1.3.2
+Version:     1.3.3
 Author:      YYDevelopment
 Author URI:  https://www.yydevelopment.com/
 */

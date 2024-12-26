@@ -36,7 +36,7 @@ if( isset($_POST['yydev_notes_nonce']) ) {
                 // converting the data and combine it
                 for ($i = 0; $i <= $notes_count; $i++) {
 
-                    if( $table_notes_post[$i] ) {
+                    if( isset($table_notes_post[$i]) ) {
 
                         $table_notes_data_note = $table_notes_post[$i];
                         $table_notes_data_direction = $class_direction[$i];
@@ -51,7 +51,7 @@ if( isset($_POST['yydev_notes_nonce']) ) {
                             $table_notes_data .= $table_notes_data_note . "^^" . $table_notes_data_direction;
                         } // if( !empty($table_notes_data_note) ) {
 
-                    } // if( $table_notes_post[$i] ) {
+                    } // if( isset($table_notes_post[$i]) ) {
 
                 } // for ($i = 0; $i <= $notes_count; $i++) {
 
