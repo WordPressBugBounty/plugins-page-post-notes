@@ -1,8 +1,8 @@
 === Page & Post Notes ===
 Contributors: YYDevelopment
 Tags: notes, note, memo, page notes, post notes
-Requires at least: 4
-Tested up to: 6.5
+Requires at least: 5.0
+Tested up to: 6.8
 Stable tag: 1.3.3
 Requires PHP: 5.2.4
 License: GPLv2 or later
