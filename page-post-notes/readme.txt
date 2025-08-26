@@ -2,8 +2,8 @@
 Contributors: YYDevelopment
 Tags: notes, note, memo, page notes, post notes
 Requires at least: 5.0
-Tested up to: 6.8
-Stable tag: 1.3.3
+Tested up to: 6.7
+Stable tag: 1.3.4
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -119,6 +119,9 @@ changing sanitize_text_field to sanitize_textarea_field
 
 = 1.3.3 =
 fixed php 8.0 warning
+
+= 1.3.4 =
+* Fixed broken access control vulnerability 
 
 == Upgrade Notice ==
 
