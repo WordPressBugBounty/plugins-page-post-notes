@@ -5,6 +5,11 @@ if( isset($_POST['yydev_notes_nonce']) ) {
 
     if( wp_verify_nonce($_POST['yydev_notes_nonce'], 'yydev_notes_action') ) {
 
+        // Add capability check - user must be able to edit posts
+        if ( ! current_user_can( 'edit_posts' ) ) {
+            return;
+        }
+
         include('settings.php');
 
         // ====================================================
@@ -13,6 +18,11 @@ if( isset($_POST['yydev_notes_nonce']) ) {
 
         if( isset($_POST['yydev_notes_page_id']) ) {
                $page_id = intval($_POST['yydev_notes_page_id']);
+               
+               // Additional check: verify user can edit this specific post
+               if ( $page_id > 0 && ! current_user_can( 'edit_post', $page_id ) ) {
+                   return;
+               }
         } // if( isset($_POST['yydev_notes_page_id']) ) {
 
         // ====================================================

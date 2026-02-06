@@ -4,7 +4,7 @@
 Plugin Name: YYDevelopment - Page & Post Notes
 Plugin URI:  https://www.yydevelopment.com/yydevelopment-wordpress-plugins/
 Description: Simple plugin that allow you to notes on pages and posts
-Version:     1.3.4
+Version:     1.3.5
 Author:      YYDevelopment
 Author URI:  https://www.yydevelopment.com/
 */
@@ -66,13 +66,23 @@ function yydev_notes_dashboard_widgets() {
 add_action('wp_dashboard_setup', 'yydev_notes_dashboard_widgets');
 
 // ================================================
-// function that will insert the code to the datbase
+// function that will insert the code to the database
 // once the post or page is updated
 // ================================================
 
-function yydev_notes_insert_to_database() {
+function yydev_notes_insert_to_database( $post_id ) {
 
-        include('include/insert-to-db.php');
+    // Check if user has capability to edit this specific post
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+
+    // Verify nonce
+    if ( ! isset( $_POST['yydev_notes_nonce'] ) || ! wp_verify_nonce( $_POST['yydev_notes_nonce'], 'yydev_notes_action' ) ) {
+        return;
+    }
+
+    include('include/insert-to-db.php');
 
 } // function yydev_notes_insert_to_database() {
 
@@ -84,14 +94,38 @@ add_action('pre_post_update', 'yydev_notes_insert_to_database');
 
 function yydev_notes_save_dashboard_data() {
 
+    // Check if user has capability to edit posts/pages
+    if ( ! current_user_can( 'edit_posts' ) ) {
+        wp_send_json_error( array( 'message' => 'You do not have permission to perform this action.' ) );
+        wp_die();
+    }
+
+    // Verify nonce for CSRF protection
+    if ( ! isset( $_POST['yydev_notes_nonce'] ) || ! wp_verify_nonce( $_POST['yydev_notes_nonce'], 'yydev_notes_action' ) ) {
+        wp_send_json_error( array( 'message' => 'Security check failed.' ) );
+        wp_die();
+    }
+
+    // If this is for a specific page/post (not dashboard), verify user can edit that specific post
+    if ( isset( $_POST['yydev_notes_page_id'] ) && intval( $_POST['yydev_notes_page_id'] ) > 0 ) {
+        $page_id = intval( $_POST['yydev_notes_page_id'] );
+        
+        // Check if user can edit this specific post/page
+        if ( ! current_user_can( 'edit_post', $page_id ) ) {
+            wp_send_json_error( array( 'message' => 'You do not have permission to edit notes for this page.' ) );
+            wp_die();
+        }
+    }
+
     include('include/insert-to-db.php');
     echo "Saved";
-    die(); // we have to end ajax functions with die();
+    wp_die();
 
 } // function yydev_notes_save_dashboard_data() {
 
 add_action( 'wp_ajax_yydev_notes_save_dashboard_data', 'yydev_notes_save_dashboard_data' ); // create ajax function we can call with javascript
-add_action( 'wp_ajax_nopriv_yydev_notes_save_dashboard_data', 'yydev_notes_save_dashboard_data' ); // add access for users who are not logged in
+// Removed nopriv action - only logged in users with proper capabilities should access this
+// add_action( 'wp_ajax_nopriv_yydev_notes_save_dashboard_data', 'yydev_notes_save_dashboard_data' );
 
 // ================================================
 // Add donate page to the plugin menu info

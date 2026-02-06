@@ -2,8 +2,8 @@
 Contributors: YYDevelopment
 Tags: notes, note, memo, page notes, post notes
 Requires at least: 5.0
-Tested up to: 6.7
-Stable tag: 1.3.4
+Tested up to: 6.9
+Stable tag: 1.3.5
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -122,6 +122,9 @@ fixed php 8.0 warning
 
 = 1.3.4 =
 * Fixed broken access control vulnerability 
+
+= 1.3.5 =
+* Improved security by making sure user have privileges to edit post in order to save notes
 
 == Upgrade Notice ==
 
